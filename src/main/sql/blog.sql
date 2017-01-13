@@ -1,0 +1,72 @@
+-- 创建数据库 --
+CREATE DATABASE blog;
+
+-- 选择数据库 --
+use blog;
+
+-- 创建用户表 --
+CREATE TABLE user
+(
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  `name` VARCHAR(100) NOT NULL COMMENT '用户名',
+  `nick_name` VARCHAR(120) NOT NULL COMMENT '用户昵称',
+  `pass_word` VARCHAR(200) NOT NULL COMMENT '用户密码MD5',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建用户时间',
+  `article_num` INT NOT NULL DEFAULT 0 COMMENT '此用户的文章数',
+  `category_num` INT NOT NULL DEFAULT 0 COMMENT '此用户的文章分类数',
+  PRIMARY KEY (id)
+)ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT = '博客用户表';
+
+CREATE TABLE article
+(
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '文章id',
+  `uid` BIGINT NOT NULL COMMENT '文章作者的用户id',
+  `content` VARCHAR(1000) NOT NULL COMMENT '文章内容',
+  `create-time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '文章创建时间',
+  `category` BIGINT NOT NULL COMMENT '文章分类',
+  `star` INT NOT NULL DEFAULT 0 COMMENT '点赞数',
+  `title` VARCHAR(1000) NOT NULL COMMENT '文章题目',
+  `description` VARCHAR(1000) NOT NULL COMMENT '文章描述，用于主页展示',
+  PRIMARY KEY (id),
+  KEY (`create-time`),
+  FOREIGN KEY (category) REFERENCES category(id),
+  FOREIGN KEY (uid) REFERENCES user(id)
+)ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT = '博客文章表';
+
+CREATE TABLE category
+(
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '分类id',
+  `name` VARCHAR(100) NOT NULL COMMENT '文章主题分类',
+  `uid` BIGINT NOT NULL COMMENT '分类创建者',
+  PRIMARY KEY (id),
+  FOREIGN KEY (uid) REFERENCES user(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '文章分类表';
+
+CREATE TABLE comments
+(
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '评论id',
+  `uid` BIGINT NOT NULL COMMENT '评论者用户id',
+  `article_id` BIGINT NOT NULL COMMENT '评论所属文章',
+  `content` VARCHAR(1000) NOT NULL COMMENT '评论内容',
+  `reply_to` BIGINT DEFAULT 0 COMMENT '回复指向的评论,0表示指向文章,其他值表示指向的评论id',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间'
+)ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT = '文章评论表';
+
+CREATE TABLE superuser
+(
+  `id` BIGINT NOT NULL,
+  FOREIGN KEY (id) REFERENCES user(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '超级用户id';
+
+CREATE TABLE message
+(
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '留言id',
+  `from` BIGINT NOT NULL COMMENT '留言者id',
+  `to` BIGINT NOT NULL COMMENT '留言对象id',
+  `content` VARCHAR(1000) NOT NULL COMMENT '留言内容',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '留言时间',
+  PRIMARY KEY (id),
+  FOREIGN KEY (`from`) REFERENCES user(id),
+  FOREIGN KEY (`to`) REFERENCES user(id)
+)ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT = '博客留言表';
+

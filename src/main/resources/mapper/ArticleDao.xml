@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xv.dao.ArticleDao">
+    <insert id="createArticle" parameterType="com.xv.dao.ArticleDao">
+        INSERT INTO blog.article(uid, category, content, title, description)
+                VALUES (#{uid}, #{category}, #{content}, #{title}, #{description})
+    </insert>
+
+    <update id="star" parameterType="long">
+        UPDATE blog.article SET star = star + 1
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM blog.article WHERE id = #{id}
+        AND uid = #{uid}
+    </delete>
+
+    <update id="modifyArticle" parameterType="com.xv.entity.Article">
+        UPDATE  blog.article
+                SET content = #{content}, title = #{title}, description = #{description}
+        WHERE id = #{id} AND uid = #{uid}
+    </update>
+
+    <select id="queryAllByUid" parameterType="long" resultType="com.xv.entity.Article">
+        SELECT * FROM blog.article
+        WHERE uid = #{uid}
+    </select>
+
+    <select id="queryById" parameterType="long" resultType="com.xv.entity.Article">
+        SELECT * from blog.article
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryByCategoryId" parameterType="long" resultType="com.xv.entity.Article">
+        SELECT * FROM blog.article
+        WHERE category = #{categoryId};
+    </select>
+</mapper>

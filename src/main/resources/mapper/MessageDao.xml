@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xv.dao.MessageDao">
+    <insert id="createMessage" parameterType="com.xv.entity.Message">
+        INSERT INTO blog.message(`from`, `to`, content)
+                VALUES (#{from}, #{to}, #{content})
+    </insert>
+
+
+    <select id="getMessagesByUid" parameterType="long" resultType="com.xv.entity.Message">
+        SELECT * FROM blog.message
+        WHERE `to` = #{uid}
+    </select>
+</mapper>

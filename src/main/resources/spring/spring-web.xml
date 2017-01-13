@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:contex="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置springmvc
+    1.开启Springmvc注解模式
+      简化配置
+      (1)自动化注册注解相关的Mapping组件
+      (2)提供：数据绑定，数字和日期的format
+    -->
+    <mvc:annotation-driven/>
+    <!--静态资源配置，默认servlet配置
+    1.加入对静态资源的处理
+    2.允许使用"/"做整体映射-->
+    <mvc:default-servlet-handler/>
+    <!--
+    配置jsp viewresolver
+    -->
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <mvc:interceptors>
+        <!-- 如果不定义 mvc:mapping path 将拦截所有的URL请求 -->
+        <bean class="com.xv.web.auth.AuthInterceptor"/>
+        <bean class="com.xv.web.auth.VisitorInterceptor"/>
+    </mvc:interceptors>
+    <!--扫描web相关的bean-->
+    <contex:component-scan base-package="com.xv.web"/>
+
+</beans>

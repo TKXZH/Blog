@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xv.dao.CategoryDao">
+    <insert id="addCategory">
+        INSERT INTO blog.category(name, uid)
+                VALUES (#{name}, #{uid})
+    </insert>
+
+    <select id="getCategoriesByUid" parameterType="long" resultType="com.xv.entity.Category">
+        SELECT * FROM blog.category
+        WHERE uid = #{uid};
+    </select>
+
+    <select id="getCategoryById" parameterType="long" resultType="com.xv.entity.Category">
+        SELECT * FROM blog.category
+        WHERE id = #{id};
+    </select>
+</mapper>

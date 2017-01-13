@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xv.dao.UserDao">
+    <insert id="createUser" parameterType="com.xv.entity.User">
+        <!--修改主键冲突报错,错误时会返回0-->
+        INSERT INTO blog.user(name, nick_name, pwd)
+        VALUES (#{name}, #{nickName}, #{pwd})
+    </insert>
+
+    <select id="queryById" parameterType="int" resultType="com.xv.entity.User">
+        SELECT * FROM blog.user
+        WHERE id = #{id}
+    </select>
+
+    <update id="modifyNickName">
+        UPDATE blog.user
+                SET nick_name = #{nickName}
+        WHERE id = #{id}
+    </update>
+
+    <update id="modifyPassWord">
+        UPDATE blog.user
+                SET pwd = #{pwd}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getPwdByUserName" parameterType="String" resultType="String">
+        SELECT pwd FROM blog.user
+        WHERE name = #{userName}
+    </select>
+
+    <select id="getUidByUserName" parameterType="String" resultType="Long">
+        SELECT id from blog.user
+        WHERE name = #{userName}
+    </select>
+
+    <update id="increaseArticleNum" parameterType="long">
+        UPDATE blog.user SET article_num = article_num + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="increaseCategoryNum" parameterType="long">
+        UPDATE blog.user SET category_num = category_num + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="increaseStarNum" parameterType="long">
+        UPDATE blog.user SET star_num = star_num + 1
+        WHERE id = #{id}
+    </update>
+</mapper>
